@@ -59,3 +59,5 @@ dkms.conf
 .metadata/
 VW553-Project-Template/GD RISC-V MCU Debug/
 .vscode/
+.settings/
+.cproject
