@@ -57,7 +57,8 @@ dkms.conf
 
 # GD32EmbeddedBuilder
 .metadata/
-VW553-Project-Template/GD RISC-V MCU Debug/
+*/GD RISC-V MCU Debug/
 .vscode/
-.settings/
-.cproject
+*/.settings/
+*/.cproject
+*/.Project
