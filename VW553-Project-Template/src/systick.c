@@ -52,6 +52,54 @@ void systick_config(void)
 }
 
 /*!
+    \brief      delay a time in microseconds
+    \param[in]  count: count in microseconds
+    \param[out] none
+    \retval     none
+*/
+void delay_1us(uint32_t count)
+{
+    uint64_t ticks;
+    uint64_t told, tnow;
+    uint64_t tcnt = 0;
+    uint64_t reload = SysTimer_GetCompareValue(); // 获取比较值作为重载值
+
+    /* 获得延时经过的 tick 数 */
+    /* 注意：CPUTimer 时钟源是40MHz，是SystemCoreClock的1/4 */
+    ticks = (uint64_t)count * ((SystemCoreClock / 4) / 1000000);
+
+    /* 获取当前时间 */
+    told = (uint64_t)SysTimer->MTIMER;
+
+    while (1)
+    {
+        /* 循环获得当前时间，直到达到指定的时间后退出循环 */
+        tnow = (uint64_t)SysTimer->MTIMER;
+
+        if (tnow != told)
+        {
+            if (tnow < told)
+            {
+                /* 处理计数器回绕 */
+                tcnt += (reload - told) + tnow;
+            }
+            else
+            {
+                tcnt += tnow - told;
+            }
+
+            told = tnow;
+
+            if (tcnt >= ticks)
+            {
+                break;
+            }
+        }
+    }
+}
+
+
+/*!
     \brief      delay a time in milliseconds
     \param[in]  count: count in milliseconds
     \param[out] none
