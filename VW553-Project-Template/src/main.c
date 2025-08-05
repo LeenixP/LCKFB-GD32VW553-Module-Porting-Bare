@@ -99,10 +99,13 @@ int main(void)
     printf("\r\nCK_APB1 is %d\r\n", rcu_clock_freq_get(CK_APB1));
     printf("\r\nCK_APB2 is %d\r\n", rcu_clock_freq_get(CK_APB2));
 
-    while(1) {
-        if(RESET == gd_eval_key_state_get(KEY_TAMPER_WAKEUP)) {
+    while(1) 
+    {
+        if(RESET == gd_eval_key_state_get(KEY_TAMPER_WAKEUP)) 
+        {
             delay_1ms(50);
-            if(SET == gd_eval_key_state_get(KEY_TAMPER_WAKEUP)) {
+            if(SET == gd_eval_key_state_get(KEY_TAMPER_WAKEUP)) 
+            {
                 gd_eval_led_toggle(LED1);
             }
         }
