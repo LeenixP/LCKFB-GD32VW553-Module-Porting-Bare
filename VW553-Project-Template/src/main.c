@@ -51,11 +51,9 @@ void led_spark(void)
     if(timingdelaylocal) {
 
         if(timingdelaylocal < 500U) {
-            gd_eval_led_on(LED2);
-            gd_eval_led_on(LED3);
+            gd_eval_led_on(LED1);
         } else {
-            gd_eval_led_off(LED2);
-            gd_eval_led_off(LED3);
+            gd_eval_led_off(LED1);
         }
 
         timingdelaylocal--;
@@ -81,13 +79,16 @@ int main(void)
     eclic_priority_group_set(ECLIC_PRIGROUP_LEVEL3_PRIO1);
     /* initilize the LEDs, USART and key */
     gd_eval_led_init(LED1);
-    gd_eval_led_init(LED2);
-    gd_eval_led_init(LED3);
     gd_eval_com_init(EVAL_COM0);
     gd_eval_key_init(KEY_TAMPER_WAKEUP, KEY_MODE_GPIO);
 
 #ifdef __FIRMWARE_VERSION_DEFINE
     fw_ver = gd32vw55x_firmware_version_get();
+    printf("\r\n= = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = =\r\n\n");
+    printf("\r\n=== Welcome to use the LC-GD32VW553-HMQ6 development board ====\r\n\n");
+    printf("\r\n======================= www.lckfb.com =========================\r\n\n");
+    printf("\r\n======================= wiki.lckfb.com ========================\r\n\n");
+    printf("\r\n= = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = =\r\n");
     /* print firmware version */
     printf("\r\nGD32VW55X series firmware version: V%d.%d.%d", (uint8_t)(fw_ver >> 24), (uint8_t)(fw_ver >> 16), (uint8_t)(fw_ver >> 8));
 #endif /* __FIRMWARE_VERSION_DEFINE */

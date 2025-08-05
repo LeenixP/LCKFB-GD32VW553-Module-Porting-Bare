@@ -35,16 +35,14 @@ OF SUCH DAMAGE.
 #include "gd32vw553h_eval.h"
 
 /* private variables */
-static uint32_t GPIO_PORT[LEDn] = {LED1_GPIO_PORT, LED2_GPIO_PORT,
-                                   LED3_GPIO_PORT};
-static uint32_t GPIO_PIN[LEDn] = {LED1_PIN, LED2_PIN, LED3_PIN};
+static uint32_t GPIO_PORT[LEDn] = {LED_GPIO_PORT};
+static uint32_t GPIO_PIN[LEDn] = {LED_GPIO_PIN};
 
 static rcu_periph_enum COM_CLK[COMn] = {EVAL_COM0_CLK};
 static uint32_t COM_TX_PIN[COMn] = {EVAL_COM0_TX_PIN};
 static uint32_t COM_RX_PIN[COMn] = {EVAL_COM0_RX_PIN};
 
-static rcu_periph_enum GPIO_CLK[LEDn] = {LED1_GPIO_CLK, LED2_GPIO_CLK,
-                                         LED3_GPIO_CLK};
+static rcu_periph_enum GPIO_CLK[LEDn] = {LED_GPIO_CLK};
 
 static uint32_t KEY_PORT[KEYn] = {TAMPER_WAKEUP_KEY_GPIO_PORT};
 static uint32_t KEY_PIN[KEYn] = {TAMPER_WAKEUP_KEY_PIN};
@@ -57,9 +55,6 @@ static IRQn_Type KEY_IRQn[KEYn] = {TAMPER_WAKEUP_KEY_EXTI_IRQn};
 /*!
     \brief      configure led GPIO
     \param[in]  lednum: specify the Led to be configured
-      \arg        LED1
-      \arg        LED2
-      \arg        LED3
     \param[out] none
     \retval     none
 */
