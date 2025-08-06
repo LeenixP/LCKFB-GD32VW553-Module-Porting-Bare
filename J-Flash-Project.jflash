@@ -3,8 +3,8 @@
 [GENERAL]
   aATEModuleSel[24] = 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
   ConnectMode = 0
-  CurrentFile = ""
-  DataFileSAddr = 0x00000000
+  CurrentFile = "C:\Users\lipeng\Desktop\LCKFB-GD32VW553-Module-Porting-Bare\0-91-iic-single-screen\GD RISC-V MCU Debug\0-91-iic-single-screen.bin"
+  DataFileSAddr = 0x08000000
   GUIMode = 0
   HostName = ""
   TargetIF = 0
@@ -20,8 +20,8 @@
   TAP_Number = 0
   UseAdaptive0 = 0
   UseAdaptive1 = 0
-  UseMaxSpeed0 = 0
-  UseMaxSpeed1 = 0
+  UseMaxSpeed0 = 1
+  UseMaxSpeed1 = 1
 [CPU]
   NumInitSteps = 1
   InitStep0_Action = "Reset"
