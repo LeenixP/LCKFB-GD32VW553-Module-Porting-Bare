@@ -34,23 +34,22 @@ void OLED_DisplayTurn(u8 i)
 }
 
 void OLED_WR_Byte(u8 dat,u8 cmd)
-{	
-	u8 i;			  
+{		  
 	if(cmd)
 	  OLED_DC_Set();
 	else 
 	  OLED_DC_Clr();		  
 	OLED_CS_Clr();
-	for(i=0;i<8;i++)
-	{			  
-		OLED_SCL_Clr();
-		if(dat&0x80)
-		   OLED_SDA_Set();
-		else 
-		   OLED_SDA_Clr();
-		OLED_SCL_Set();
-		dat<<=1;   
-	}				 		  
+
+	//等待发送缓冲区为空
+	while(RESET == spi_flag_get(SPI_FLAG_TBE) );
+	//通过SPI发送一个字节数据
+	spi_data_transmit(dat);
+
+	//等待接收缓冲区不空标志
+	while(RESET == spi_flag_get(SPI_FLAG_RBNE) );
+	uint8_t recv_data = spi_data_receive();
+				 		  
 	OLED_CS_Set();
 	OLED_DC_Set();   	  
 }
@@ -387,9 +386,13 @@ void OLED_Init(void)
 {
 	//使能时钟
 	OLED_RCU_ENABLE();
+
+	//引脚复用
+	gpio_af_set(OLED_SCL_PORT, OLED_SCL_AF, OLED_SCL_PIN);
+	gpio_af_set(OLED_SDA_PORT, OLED_SDA_AF, OLED_SDA_PIN);
 	//引脚模式
-	gpio_mode_set(OLED_SCL_PORT, GPIO_MODE_OUTPUT, GPIO_PUPD_PULLUP, OLED_SCL_PIN);
-	gpio_mode_set(OLED_SDA_PORT, GPIO_MODE_OUTPUT, GPIO_PUPD_PULLUP, OLED_SDA_PIN);
+	gpio_mode_set(OLED_SCL_PORT, GPIO_MODE_AF, GPIO_PUPD_NONE, OLED_SCL_PIN);
+	gpio_mode_set(OLED_SDA_PORT, GPIO_MODE_AF, GPIO_PUPD_NONE, OLED_SDA_PIN);
 	gpio_mode_set(OLED_RES_PORT, GPIO_MODE_OUTPUT, GPIO_PUPD_PULLUP, OLED_RES_PIN);
 	gpio_mode_set(OLED_DC_PORT, GPIO_MODE_OUTPUT, GPIO_PUPD_PULLUP, OLED_DC_PIN);
 	gpio_mode_set(OLED_CS_PORT, GPIO_MODE_OUTPUT, GPIO_PUPD_PULLUP, OLED_CS_PIN);
@@ -402,6 +405,23 @@ void OLED_Init(void)
 
 	OLED_CS_Set(); //片选高
 	OLED_DC_Set(); //数据/命令高
+
+	//SPI参数定义结构体
+	spi_parameter_struct spi_init_struct;
+	/* 配置 SPI 参数 */
+	spi_init_struct.trans_mode             = SPI_TRANSMODE_FULLDUPLEX;  // 传输模式全双工
+	spi_init_struct.device_mode            = SPI_MASTER;   // 配置为主机
+	spi_init_struct.frame_size             = SPI_FRAMESIZE_8BIT; // 8位数据
+	spi_init_struct.clock_polarity_phase   = SPI_CK_PL_HIGH_PH_2EDGE;
+	spi_init_struct.nss                    = SPI_NSS_SOFT;  // 软件cs
+	spi_init_struct.prescale               = SPI_PSC_4;//4分频
+	spi_init_struct.endian                 = SPI_ENDIAN_MSB;//高位在前
+
+	//将参数填入SPI
+	spi_init(&spi_init_struct);
+
+	/* 使能 SPI */
+	spi_enable();
 	delay_1ms(500);
 	
 	OLED_RES_Clr();

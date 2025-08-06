@@ -51,13 +51,6 @@
 #define OLED_BLK_PORT    GPIOB
 #define OLED_BLK_PIN     GPIO_PIN_12
 
-
-#define OLED_SCL_Clr() gpio_bit_write(OLED_SCL_PORT,OLED_SCL_PIN,0)//SCL
-#define OLED_SCL_Set() gpio_bit_write(OLED_SCL_PORT,OLED_SCL_PIN,1)
-
-#define OLED_SDA_Clr() gpio_bit_write(OLED_SDA_PORT,OLED_SDA_PIN,0)//SDA
-#define OLED_SDA_Set() gpio_bit_write(OLED_SDA_PORT,OLED_SDA_PIN,1)
-
 #define OLED_RES_Clr() gpio_bit_write(OLED_RES_PORT,OLED_RES_PIN,0)//RES
 #define OLED_RES_Set() gpio_bit_write(OLED_RES_PORT,OLED_RES_PIN,1)
 
