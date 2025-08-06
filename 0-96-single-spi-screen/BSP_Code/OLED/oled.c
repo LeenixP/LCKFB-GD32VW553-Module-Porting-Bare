@@ -34,7 +34,7 @@ void OLED_DisplayTurn(u8 i)
 
 void OLED_WR_Byte(u8 dat,u8 cmd)
 {
-	// uint8_t recv_data = 0;
+	uint8_t recv_data = 0;
 
 	if(cmd)
 		OLED_DC_Set();
